@@ -73,12 +73,18 @@ def __solve_subexpression(subexpr_lst: list) -> float:
     def perform_operation(mark_index):
         op_mark = subexpr_lst[mark_index]
         op = pr.get_operation_by_mark(op_mark)
-        op.init(subexpr_lst[mark_index-1], subexpr_lst[mark_index+1])
+        # если знак в нулевой позиции, то выражение состоит из двух элементов
+        # (строго говоря это валидно только для унарного плюса или минуса)
+        index_of_res = 0
+        va, vb = 0, subexpr_lst[mark_index+1]
+        if mark_index > 0:
+            va = subexpr_lst[mark_index-1]
+            index_of_res = mark_index - 1
+            subexpr_lst.pop(index_of_res)
+        subexpr_lst.pop(index_of_res)
+        op.init(va, vb)
         res = op.calc()
-        index_for_res = mark_index - 1
-        subexpr_lst.pop(index_for_res)
-        subexpr_lst.pop(index_for_res)
-        subexpr_lst[index_for_res] = res
+        subexpr_lst[index_of_res] = res
 
     def next_operation() -> bool:
         assert len(subexpr_lst) > 0, "Входящий список не должен быть пустым."
