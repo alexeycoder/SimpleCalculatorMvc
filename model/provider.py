@@ -1,10 +1,11 @@
-from model import addition, substraction, multiplication, division
+from model import addition, substraction, multiplication, division, exponentiation
 
 __operations = {
     addition.operation_mark: addition,
     substraction.operation_mark: substraction,
     multiplication.operation_mark: multiplication,
-    division.operation_mark: division
+    division.operation_mark: division,
+    exponentiation.operation_mark: exponentiation
 }
 
 __operations_marks = list(__operations.keys())
@@ -17,6 +18,7 @@ __expression_valid_symbols = __operations_marks + list('()')
 #     addition.operation_mark, substraction.operation_mark}
 
 __operations_marks_by_priority = [
+    {exponentiation.operation_mark},
     {multiplication.operation_mark, division.operation_mark},
     {addition.operation_mark, substraction.operation_mark}
 ]
